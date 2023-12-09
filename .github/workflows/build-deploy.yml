@@ -42,4 +42,4 @@ jobs:
         with:
           push: true
           context: .
-          tags: pedrojunqueira/mycontainer:latest
+          tags: ssiddiquee/mycontainer:latest
