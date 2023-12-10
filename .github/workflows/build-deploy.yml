@@ -54,8 +54,11 @@ jobs:
       - name: Azure Login
         uses: azure/cli@v1
         with:
-          azcliversion: '2.0.72'
-          inlineScript: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }} --allow-no-subscriptions
+          creds: |
+            ${{ secrets.AZURE_CLIENT_ID }}
+            ${{ secrets.AZURE_CLIENT_SECRET }}
+            ${{ secrets.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
       
   
       - name: 'Run Azure CLI commands'
