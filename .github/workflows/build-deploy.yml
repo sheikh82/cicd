@@ -69,4 +69,3 @@ jobs:
             --target-port 80 \
             --ingress external \
             --query properties.configuration.ingress.fqdn \
-            --verbose
