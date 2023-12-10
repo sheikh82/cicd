@@ -61,6 +61,9 @@ jobs:
       - name: 'Run Azure CLI commands'
         run: |
           export AZURE_CONFIG_DIR=$(mktemp -d)
+      
+      - name: 'Deploy to Azure Container Apps'
+        run: |
           az containerapp up \
             --name my-container-app2-ss-091223 \
             --resource-group Cohort26_SheSid_ProjectExercise \
