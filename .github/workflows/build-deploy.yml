@@ -67,5 +67,6 @@ jobs:
             --environment 'my-container-apps-env2' \
             --image ssiddiquee/mycontainer:latest
             --target-port 80 \
-            --dns-name-label my-container-app \
-            --query hostname
+            --ingress external \
+            --query properties.configuration.ingress.fqdn \
+            --verbose
