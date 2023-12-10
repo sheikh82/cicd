@@ -1,7 +1,9 @@
 name: test-and-deploy
 
 on:
-  workflow_call:
+  push:
+    branches:
+      - main  # Adjust the branch name based on your setup
 
 permissions:
   id-token: write
@@ -63,7 +65,4 @@ jobs:
             --resource-group my-container-apps \
             --location centralus \
             --environment 'my-container-apps' \
-            --image ssiddiquee/mycontainer:latest \
-            --target-port 80 \
-            --ingress external \
-            --query properties.configuration.ingress.fqdn
+            --image ssiddiquee/mycontainer:latest
