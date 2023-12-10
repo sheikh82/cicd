@@ -66,3 +66,7 @@ jobs:
             --location centralus \
             --environment 'my-container-apps' \
             --image ssiddiquee/mycontainer:latest
+            --target-port 80 \
+            --ingress external \
+            --query properties.configuration.ingress.fqdn \
+            --verbose
