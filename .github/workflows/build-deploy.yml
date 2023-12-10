@@ -61,12 +61,11 @@ jobs:
       - name: 'Run Azure CLI commands'
         run: |
           az containerapp up \
-            --name my-container-app \
-            --resource-group my-container-apps \
+            --name my-container-app2-ss-091223 \
+            --resource-group Cohort26_SheSid_ProjectExercise \
             --location centralus \
-            --environment 'my-container-apps' \
+            --environment 'my-container-apps-env2' \
             --image ssiddiquee/mycontainer:latest
             --target-port 80 \
-            --ingress external \
-            --query properties.configuration.ingress.fqdn \
-            --verbose
+            --dns-name-label my-container-app \
+            --query hostname
