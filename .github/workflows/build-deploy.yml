@@ -1,18 +1,19 @@
 name: test-and-deploy
 
 on:
-  push:
-    branches:
-      - main  # Adjust this branch name based on your setup
+  workflow_call:
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
       - name: Install dependencies
@@ -21,7 +22,7 @@ jobs:
           pip install -r requirements-dev.txt
       - name: Test with pytest
         run: python -m pytest ./tests
-
+  
   docker:
     needs: test
     runs-on: ubuntu-latest
@@ -43,4 +44,26 @@ jobs:
           push: true
           context: .
           tags: ssiddiquee/mycontainer:latest
- 
+
+  deploy-azure:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  
+      - name: 'Run Azure CLI commands'
+        run: |
+          az containerapp up \
+            --name my-container-app \
+            --resource-group my-container-apps \
+            --location centralus \
+            --environment 'my-container-apps' \
+            --image ssiddiquee/mycontainer:latest \
+            --target-port 80 \
+            --ingress external \
+            --query properties.configuration.ingress.fqdn
