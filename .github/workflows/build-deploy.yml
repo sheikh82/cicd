@@ -60,6 +60,7 @@ jobs:
   
       - name: 'Run Azure CLI commands'
         run: |
+          export AZURE_CONFIG_DIR=$(mktemp -d)
           az containerapp up \
             --name my-container-app2-ss-091223 \
             --resource-group Cohort26_SheSid_ProjectExercise \
@@ -69,3 +70,9 @@ jobs:
             --target-port 80 \
             --ingress external \
             --query properties.configuration.ingress.fqdn \
+ 
+      - name: Debug
+        run: |
+          whoami
+          ls -la /home/runner/.azure
+          
